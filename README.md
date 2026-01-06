@@ -170,8 +170,7 @@ src/
 ---
 
 ## 10. How to Run Locally
-git clone <your repo>
-
+git clone https://github.com/ahana4banerjee/Meteorite-Dashboard.git
 ```bash
 npm install
 npm run dev
