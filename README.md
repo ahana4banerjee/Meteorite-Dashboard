@@ -1,73 +1,206 @@
-# React + TypeScript + Vite
+# GraphQL User Dashboard – Task 02
+---
+## 1. Project Overview
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Purpose of the task**
+This project implements a full login/signup flow and a protected user dashboard that fetches data from a live GraphQL backend and performs complete CRUD operations. The goal was to demonstrate frontend + GraphQL integration, real API handling, and clean state management using Apollo Client.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 2. Screenshots
 
-## React Compiler
+Screen Recording: <paste your drive link>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Login Page: <img width="1221" height="533" alt="Login Page" src="https://github.com/user-attachments/assets/89551345-f146-4154-adba-9b5681306624" />
 
-## Expanding the ESLint configuration
+Signup Page: <img width="1081" height="496" alt="Signup page" src="https://github.com/user-attachments/assets/96503908-8af0-49e9-8dc1-59ed44549fcb" />
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+User Dashboard with CRUD: <img width="1352" height="652" alt="Dashboard" src="https://github.com/user-attachments/assets/f27bfe50-0128-47d9-b4b6-ceef9ff2a549" />
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 3. Tech Stack
+
+- **Frontend Framework:** React + TypeScript (Vite)
+- **GraphQL Client:** Apollo Client
+- **Styling:** Tailwind CSS
+- **Backend API:** Strapi CMS GraphQL API
+
+---
+## 4. Features Implemented
+
+**_Authentication Flow_**
+
+- Signup with local credential storage
+- Login validation using stored users
+- Protected dashboard routes
+
+**_GraphQL Dashboard_**
+
+- Fetch users from userDbs collection
+- Create new users
+- Update existing users using an editable form
+- Delete users in real time
+
+**_UI Enhancements_**
+
+- Tailwind styled dashboard layout
+- Centered auth pages
+- Responsive table design
+
+---
+
+## 5. GraphQL Implementation Notes
+
+### Query Used
+
+GET_USERS → Fetches userDbs collection
+
+### Mutations Implemented
+
+• createUser
+```TypeScript
+export const CREATE_USER = gql`
+  mutation CreateUser($Name: String!, $email: String!, $phone: Int!) {
+    createUserDb(data: { Name: $Name, email: $email, phone: $phone, is_active: true }) {
+      documentId
+      Name
+      email
+      phone
+      is_active
+    }
+  }
+`;
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+• updateUser
+```TypeScript
+export const UPDATE_USER = gql`
+  mutation UpdateUser($documentId: ID!, $Name: String!, $email: String!) {
+    updateUserDb(documentId: $documentId, data: { Name: $Name, email: $email }) {
+      documentId
+      Name
+      email
+    }
+  }
+`;
 ```
+
+• deleteUser
+```TypeScript
+export const DELETE_USER = gql`
+  mutation DeleteUser($documentId: ID!) {
+    deleteUserDb(documentId: $documentId) {
+      documentId
+    }
+  }
+`;
+```
+
+---
+
+## 6. Build Process
+
+- Setup Apollo Client & GraphQL endpoint
+- Built login/signup UI with route protection
+- Connected dashboard to real GraphQL backend
+- Implemented Create / Update / Delete flows
+- Styled all screens using Tailwind CSS
+
+---
+
+## 7. AI Prompts Used (ChatGPT + Postman)
+
+- GraphQL Debugging:
+  
+“Why is my Strapi GraphQL mutation failing with bad request?”
+
+- CRUD Flow:
+  
+“How to refetch queries after GraphQL mutation?”
+
+- Tailwind Styling:
+  
+“Style this React dashboard table using Tailwind.”
+
+---
+
+## 8. Debugging & Challenges
+
+- Strapi Schema Mismatch
+
+Issue: Backend did not expose collections as expected
+
+Fix: Discovered correct userDbs query pattern
+
+- Apollo Init Error
+
+Issue: Apollo client throwing invariant violation
+
+Fix: Replaced uri with HttpLink
+
+- Mutation Input Errors
+  
+Issue: Create mutation failing silently
+
+Fix: Matched exact mutation schema
+
+---
+
+## 9. Folder Structure
+```text
+src/
+├── pages/
+│   ├── Home.tsx
+│   ├── Login.tsx
+│   ├── Signup.tsx
+│   ├── Dashboard.tsx
+├── graphql/
+│   ├── apolloClient.ts
+│   ├── operations/
+│   │   ├── userQueries.ts
+│   │   ├── userMutations.ts
+├── auth/
+│   ├── authService.ts
+├── App.tsx
+├── index.css
+└── main.tsx
+```
+---
+
+## 10. How to Run Locally
+git clone <your repo>
+
+```bash
+npm install
+npm run dev
+```
+
+Open: http://localhost:5173
+
+---
+
+## 11. Time Required
+
+~ 5 hours total
+
+---
+
+## 12. Limitations & Future Improvements
+
+**_Limitations_**
+
+  - Authentication is frontend-only due to backend restrictions
+
+**_Future Improvements_**
+
+- Integrate real JWT based login
+- Add pagination and filtering
+- Improve error handling and loaders
+
+---
+
+## 13. Outcome
+
+This task helped me understand real-world GraphQL integration, Apollo client internals, and handling imperfect backend systems gracefully.
