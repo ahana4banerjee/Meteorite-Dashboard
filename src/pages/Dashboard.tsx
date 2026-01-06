@@ -50,7 +50,7 @@ useEffect(() => {
     <div className="min-h-screen bg-gray-900 text-white p-10 flex justify-center">
       <div className="w-full max-w-6xl">
         <div style={{ padding: "20px" }}>
-      <h2>User Dashboard</h2>
+      <h2 className="text-2xl font-semibold mb-6 text-center">User Dashboard</h2>
       <form
   onSubmit={(e) => {
     e.preventDefault();
