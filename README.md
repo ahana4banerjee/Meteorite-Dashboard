@@ -9,7 +9,7 @@ This project implements a full login/signup flow and a protected user dashboard 
 
 ## 2. Screenshots
 
-Screen Recording: <paste your drive link>
+Screen Recording: https://drive.google.com/file/d/14F5GsXq493RApj-ZUoQNt2OweiVDxXYd/view?usp=sharing
 
 Login Page: <img width="1221" height="533" alt="Login Page" src="https://github.com/user-attachments/assets/89551345-f146-4154-adba-9b5681306624" />
 
