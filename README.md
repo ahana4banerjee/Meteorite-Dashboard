@@ -3,6 +3,7 @@
 ## 1. Project Overview
 
 **Purpose of the task**
+
 This project implements a full login/signup flow and a protected user dashboard that fetches data from a live GraphQL backend and performs complete CRUD operations. The goal was to demonstrate frontend + GraphQL integration, real API handling, and clean state management using Apollo Client.
 
 ---
