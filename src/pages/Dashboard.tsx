@@ -47,25 +47,46 @@ useEffect(() => {
   if (error) return <p>Error loading users</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="min-h-screen bg-gray-900 text-white p-10 flex justify-center">
+      <div className="w-full max-w-6xl">
+        <div style={{ padding: "20px" }}>
       <h2>User Dashboard</h2>
       <form
   onSubmit={(e) => {
-  e.preventDefault();
-  createUser({
-    variables: {
-      Name: form.Name,
-      email: form.email,
-      phone: Number(form.phone),
-    },
-  });
-}}
-
+    e.preventDefault();
+    createUser({
+      variables: {
+        Name: form.Name,
+        email: form.email,
+        phone: Number(form.phone),
+      },
+    });
+    setForm({ Name: "", email: "", phone: "" });
+  }}
+  className="bg-gray-800 p-6 rounded-xl shadow-md flex gap-4 items-center"
 >
-  <input placeholder="Name" onChange={e=>setForm({...form, Name:e.target.value})}/>
-  <input placeholder="Email" onChange={e=>setForm({...form, email:e.target.value})}/>
-  <input placeholder="Phone" onChange={e=>setForm({...form, phone:e.target.value})}/>
-  <button>Add User</button>
+  <input
+    className="input bg-gray-700 text-white"
+    placeholder="Name"
+    value={form.Name}
+    onChange={(e) => setForm({ ...form, Name: e.target.value })}
+  />
+
+  <input
+    className="input bg-gray-700 text-white"
+    placeholder="Email"
+    value={form.email}
+    onChange={(e) => setForm({ ...form, email: e.target.value })}
+  />
+
+  <input
+    className="input bg-gray-700 text-white"
+    placeholder="Phone"
+    value={form.phone}
+    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+  />
+
+  <button className="btn px-10">Add User</button>
 </form>
 
 {editUser && (
@@ -97,29 +118,35 @@ useEffect(() => {
 
 
 
-      <table border={1} cellPadding={10}>
+      <table className="w-full border-collapse mt-6 bg-gray-800 rounded-xl overflow-hidden">
+
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Active</th>
+            <th className="p-3 text-left bg-gray-700">Name</th>
+
+           <th className="p-3 text-left bg-gray-700">Email</th>
+
+            <th className="p-3 text-left bg-gray-700">Phone</th>
           </tr>
         </thead>
 
         <tbody>
           {data.userDbs.map((u: any) => (
             <tr key={u.documentId}>
-              <td>{u.Name}</td>
-              <td>{u.email}</td>
-              <td>{u.phone}</td>
-              <td>
-                <button onClick={() => deleteUser({ variables: { documentId: u.documentId } })}>
+              <td className="p-3 border-b border-gray-700">
+{u.Name}</td>
+              <td className="p-3 border-b border-gray-700">
+{u.email}</td>
+              <td className="p-3 border-b border-gray-700">
+{u.phone}</td>
+              <td className="p-3 border-b border-gray-700">
+
+                <button className="btn mr-2" onClick={() => deleteUser({ variables: { documentId: u.documentId } })}>
                   Delete
                 </button>
               </td>
               <td>
-                <button onClick={() => setEditUser(u)}>Edit</button>
+                <button className="btn" onClick={() => setEditUser(u)}>Edit</button>
 
 
               </td>
@@ -129,5 +156,7 @@ useEffect(() => {
         </tbody>
       </table>
     </div>
-  );
+      </div>
+</div>
+  )  
 }
